@@ -12,5 +12,5 @@ def verify(poll, timeout, file_address):
             return value
         time.sleep(poll)
         if time.time() > end_time:
-            print(u'超时,查询不到')
+            print('超时,查询不到')
             break

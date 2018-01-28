@@ -28,9 +28,9 @@ class Test(unittest.TestCase):
         time.sleep(3)
         #验证登录是否成功
         element1.iframe_mainFrame()
-        text1 = element1.driver.find_element_by_link_text(u'首页').text
-        print text1
-        self.assertEqual(text1,u"首页",u"登录失败" )
+        text1 = element1.driver.find_element_by_link_text('首页').text
+        print(text1)
+        self.assertEqual(text1,"首页","登录失败" )
         element1.iframe_back()
 
 

@@ -29,8 +29,8 @@ class Taa(unittest.TestCase):
             # 验证登录是否成功
             self.admin.iframe_mainFrame()
             text1 = self.admin.getText('/html/body/div[1]/ul/li[1]/a')
-            print text1
-            self.assertEqual(text1, u"首页", u"登录失败")
+            print(text1)
+            self.assertEqual(text1, "首页", "登录失败")
             self.admin.iframe_back()
 
         def test_1(self):
@@ -39,7 +39,7 @@ class Taa(unittest.TestCase):
             first_list = self.admin.getElements('//dd[1]/ul[@class="menuson"]/li/a')
             for element_1 in first_list:
                 text_1 = element_1.text
-                print text_1
+                print(text_1)
                 error_file1 = self.mkpath + common.localtime() + '.' + ten_id + '.' + text_1 + '.png'
                 element_1.click()
                 self.admin.iframe_mainFrame()
@@ -62,7 +62,7 @@ class Taa(unittest.TestCase):
                     if not element_3.is_displayed():
                         continue
                     text_2 = element_3.text
-                    print text_2
+                    print(text_2)
                     error_file2 = self.mkpath + common.localtime() + '.' + ten_id + '.' + text_2 + '.png'
                     element_3.click()
                     self.admin.iframe_mainFrame()

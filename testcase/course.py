@@ -27,8 +27,9 @@ class Test_1(unittest.TestCase):
         # self.course.arise_wait('/html/body/div[1]/ul/li[1]/a')
         # self.course.iframe_mainFrame()
         text1 = self.course.getText('/html/body/div[1]/ul/li[1]/a')
-        self.assertEqual(text1, u"首页", u"登录失败" )
+        self.assertEqual(text1, "首页", "登录失败" )
         self.course.iframe_back()
+        self.course.screenshot(r'F:\11.png')
 
     # 课件管理
     def test_1(self):
@@ -69,7 +70,7 @@ class Test_1(unittest.TestCase):
         self.course.iframe_mainFrame()
         text1 = self.course.getText('/html/body/div[2]/div[4]/div[1]/div/div/div[2]/table/tbody/tr[1]/td[2]')
         print(text1)
-        self.assertEqual(text1, parameters.course_test02.courseware_name, u"创建失败" )
+        self.assertEqual(text1, parameters.course_test02.courseware_name, "创建失败" )
         self.course.iframe_back()
         time.sleep(1)
 
@@ -78,6 +79,7 @@ class Test_1(unittest.TestCase):
         # 学习管理
         self.course.learning_management()
         # 课程管理
+        time.sleep(0.5)
         self.course.course_management()
         # 新增课程
         self.course.new_add()
@@ -146,7 +148,7 @@ class Test_1(unittest.TestCase):
         self.course.click("/html/body/div[1]/div[2]/div[1]/dl/dd[2]/div")
         time.sleep(1)
         # 课程分类
-        self.course.click(u'l,课程分类')
+        self.course.click('l,课程分类')
         # 选择课程分类大类
         self.course.iframe_mainFrame()
         self.course.click('/html/body/div[2]/div[1]/div[2]/div/ul/li/div/span[2]')

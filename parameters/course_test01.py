@@ -9,4 +9,4 @@
 course_file = r"D:\xiazai\apic14052.jpg"
 
 # 课程说明
-state = u'大师傅阿斯蒂芬阿斯蒂芬发'
+state = '大师傅阿斯蒂芬阿斯蒂芬发'

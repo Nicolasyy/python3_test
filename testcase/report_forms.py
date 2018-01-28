@@ -4,7 +4,7 @@
 import unittest
 import time
 from page import base_page
-from common import common
+from common import method
 from selenium.webdriver.common.keys import Keys
 
 
@@ -19,26 +19,26 @@ class Test_1(unittest.TestCase):
     # @classmethod
     # def tearDownClass(cls):
     #     cls.report.quitBrowser()
-
-    def test_login(self):
+    def login(self):
         self.report.login('dev', 'admin', '123')
         text1 = self.report.getText('/html/body/div[1]/ul/li[1]/a')
-        self.assertEqual(text1, u"首页", u"登录失败" )
+        self.assertEqual(text1, "首页", "登录失败" )
         self.report.iframe_back()
 
-    def test_1(self):
+    def aaa(self):
+        """你好"""
         self.report.system()
-        self.report.click(u'l,操作日志')
+        self.report.click('l,操作日志')
         self.report.iframe_mainFrame()
         self.report.click('i,btnQuery')
         self.report.arise_wait('//*[@id="grid"]/div[2]/table/tbody/tr[1]/td[1]')
         text = self.report.getText('//*[@id="grid"]/div[2]/table/tbody/tr[1]/td[1]')
         print(text)
-        self.assertIsNotNone(text, u'查询失败')
+        self.assertIsNotNone(text, '查询失败')
         self.report.click('i,btnExport')
         file_address = 'D:\\操作日志.csv'
-        filename = common.verify(0.5, 65, file_address)
-        self.assertTrue(filename, u'不存在')
+        filename = method.verify(0.5, 65, file_address)
+        self.assertTrue(filename, '不存在')
         aa = self.report.getText(".//*[@id='btnQuery']")
         print(aa)
         handles = self.report.driver.window_handles
@@ -52,7 +52,7 @@ class Test_1(unittest.TestCase):
     def test_2(self):
         self.report.report_center()
         time.sleep(1)
-        self.report.click(u'l,区域学习状况跟踪表')
+        self.report.click('l,区域学习状况跟踪表')
         self.report.iframe_mainFrame()
         self.report.click('//*[@id="ui_0_Area_btn"]')
         time.sleep(4)
@@ -66,12 +66,12 @@ class Test_1(unittest.TestCase):
 
 
 
-
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    a = [Test_1('test_login'), Test_1('test_2')]
+    a = [Test_1('login'), Test_1('test_2')]
     suite.addTests(a)
-    unittest.TextTestRunner().run(suite)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
 
 
 

@@ -4,23 +4,23 @@ import time
 import csv
 
 # 用户名称
-username = u'zz739'
+username = 'zz739'
 # 密码
 password = 'abc1234'
 # 出生日期
 date = '2017-06-28'
 # 部门
-department = u'项目一部'
+department = '项目一部'
 # 岗位
-post = u'开放对象测试'
+post = '开放对象测试'
 # 职位
-position = u'实习生'
+position = '实习生'
 # 标签
 label = 'test-2'
 # 手机号码
 phone = '18750943673'
 # 课程分类
-course_classification = u'测试333'
+course_classification = '测试333'
 # 图片地址
 file = r'D:\xiazai\apic16935.jpg'
 # 有效期

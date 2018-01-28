@@ -23,7 +23,7 @@ class Test_2(unittest.TestCase):
         # 验证登录是否成功
         text1 = self.exe.getText('/html/body/div[1]/ul/li[1]/a')
         print(text1)
-        self.assertEqual(text1, u"首页", u"登录失败")
+        self.assertEqual(text1, "首页", "登录失败")
         self.exe.iframe_back()
 
     def test_add_user(self):

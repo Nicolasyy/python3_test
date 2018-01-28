@@ -10,6 +10,7 @@ class Course(Exebasepage):
         课程管理
         :return:
         """
+
         self.visibility_wait('/html/body/div[1]/div[2]/div[1]/dl/dd[2]/ul/li[2]/a')
         self.click('/html/body/div[1]/div[2]/div[1]/dl/dd[2]/ul/li[2]/a')
 

@@ -16,6 +16,8 @@ class Exebasepage(object):
     # 干掉谷歌浏览器状态栏提示
     option = webdriver.ChromeOptions()
     option.add_argument("disable-infobars")
+    option.add_argument("headless")
+    option.add_argument("disable-gpu")
     # 指定下载地址，不弹窗
     prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'd:\\'}
     option.add_experimental_option('prefs', prefs)
@@ -237,6 +239,7 @@ class Exebasepage(object):
         :param username:用户名称
         :param password: 密码
         """
+        # self.driver.set_window_size(1920,1080)
         self.driver.maximize_window()
         self.driver.get("https://test.exexm.com/SysHome")
         self.driver.implicitly_wait(5)
