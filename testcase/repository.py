@@ -39,7 +39,7 @@ class Test_1(unittest.TestCase):
         self.exe.new_add()
         self.exe.iframe_second()
         # 知识分类
-        self.exe.dropdown_green('/html/body/div[1]/div[2]/div[1]/div/div[2]/div[3]/div/span/div/input[2]',
+        self.exe.dropdown_blue('/html/body/div[1]/div[2]/div[1]/div/div[2]/div[3]/div/span/div/input[2]',
                                 repository_test01.category)
         # 标题
         self.exe.sendkeys('i,ui_0_title', repository_test01.title)

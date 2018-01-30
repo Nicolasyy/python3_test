@@ -5,10 +5,11 @@ from page.base_page import Exebasepage
 
 
 class Course(Exebasepage):
+
     def course_management(self):
         """
         课程管理
-        :return:
+        :return :
         """
 
         self.visibility_wait('/html/body/div[1]/div[2]/div[1]/dl/dd[2]/ul/li[2]/a')
@@ -50,7 +51,7 @@ class Course(Exebasepage):
         :return:
         """
         self.arise_wait('/html/body/div[1]/div[2]/div[1]/div/div/div/div[1]/div[1]/div[1]/div/span/div/input[2]')
-        self.dropdown_green('/html/body/div[1]/div[2]/div[1]/div/div/div/div[1]/div[1]/div[1]/div/span/div/input[2]'
+        self.dropdown_blue('/html/body/div[1]/div[2]/div[1]/div/div/div/div[1]/div[1]/div[1]/div/span/div/input[2]'
                             , value)
 
     def course_classification(self, value):
@@ -59,7 +60,7 @@ class Course(Exebasepage):
         :param value: 分类名称
         :return:
         """
-        self.dropdown_green('/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div[1]/div[1]/div/span/div/input[2]'
+        self.dropdown_blue('/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div[1]/div[1]/div/span/div/input[2]'
                             , value)
 
     def administrative_department(self, value):
@@ -68,7 +69,7 @@ class Course(Exebasepage):
         :param value:管理部门名称
         :return:
         """
-        self.dropdown_green('/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div[2]/div[1]/div/span/div/input[2]'
+        self.dropdown_blue('/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div[2]/div[1]/div/span/div/input[2]'
                             , value)
 
     def class_label(self, value):

@@ -18,6 +18,8 @@ class Exebasepage(object):
     option.add_argument("disable-infobars")
     option.add_argument("headless")
     option.add_argument("disable-gpu")
+    # argument = ["disable-infobars", "headless", "disable-gpu"]
+    # option.add_argument(argument)
     # 指定下载地址，不弹窗
     prefs = {'profile.default_content_settings.popups': 0, 'download.default_directory': 'd:\\'}
     option.add_experimental_option('prefs', prefs)
@@ -26,6 +28,7 @@ class Exebasepage(object):
         self.driver = driver
 
     def getElement(self, selector):
+
         """
         获取元素 getElement('i,aa')
         """
@@ -129,6 +132,7 @@ class Exebasepage(object):
     def iframe_third(self):
         self.iframe('/html/body/div[7]/div[2]/iframe')
 
+
     def arise_wait(self, selector):
         """
         元素出现
@@ -211,6 +215,11 @@ class Exebasepage(object):
             WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector_value)), 'error')
 
     def frame_wait(self, selector):
+        """
+        进入frame
+        :param selector:
+        :return:
+        """
         if ',' not in selector:
             return WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, selector)), 'error')
         method = selector.split(',')[0]
@@ -265,7 +274,7 @@ class Exebasepage(object):
 
     def double_demand(self, id, value):
         """
-        查询1（有两个查询框）
+        查询1（有两个查询条件）
         :param id:搜索按钮id值
         :param value:搜索名称
         """
@@ -289,7 +298,7 @@ class Exebasepage(object):
 
     def single_demand(self, id, value):
         """
-        查询2（只有一个查询框）
+        查询2（只有一个查询条件）
         :param id:搜索按钮id值
         :param value:搜索名称
         """
@@ -310,30 +319,30 @@ class Exebasepage(object):
         self.iframe_back()
         self.iframe_second()
 
-    def search(self, selector, value):
-        """
-        查询按钮（部门，岗位，职位，标签，用户）
-        :param selector:定位元素的值
-        :param value:查询的值
-        :return:
-        """
-        self.arise_wait(selector)
-        self.sendkeys(selector, value)
-        self.sendkeys(selector, Keys.ENTER)
+    # def search(self, selector, value):
+    #     """
+    #     查询按钮（部门，岗位，职位，标签，用户）
+    #     :param selector:定位元素的值
+    #     :param value:查询的值
+    #     :return:
+    #     """
+    #     self.arise_wait(selector)
+    #     self.sendkeys(selector, value)
+    #     self.sendkeys(selector, Keys.ENTER)
 
-    def search1(self, selector, value):
-        """
-        查询按钮（标签）
-        :param selector:定位元素的值
-        :param value:查询的值
-        :return:
-        """
-        self.sendkeys(selector, value)
-        time.sleep(0.5)
-        texts = self.getElements('t,li')
-        for text1 in texts:
-            if text1.text == value:
-                text1.click()
+    # def search1(self, selector, value):
+    #     """
+    #     查询按钮（标签）
+    #     :param selector:定位元素的值
+    #     :param value:查询的值
+    #     :return:
+    #     """
+    #     self.sendkeys(selector, value)
+    #     time.sleep(0.5)
+    #     texts = self.getElements('t,li')
+    #     for text1 in texts:
+    #         if text1.text == value:
+    #             text1.click()
 
     def validity(self, start_time, finish_time):
         """
@@ -352,6 +361,13 @@ class Exebasepage(object):
         """
         self.click('i,btnSave')
 
+    def close(self):
+        """
+        关闭
+        """
+        self.iframe_back()
+        self.click('/html/body/div[5]/span/a[3]')
+
     def publish(self):
         """
         发布和关闭按钮
@@ -360,15 +376,7 @@ class Exebasepage(object):
         # 确定按钮
         self.click('/html/body/div[17]/div[3]/a[1]')
         self.click_wait('i,btnAdd')
-        self.iframe_back()
-        self.click('/html/body/div[5]/span/a[3]')
-
-    def close(self):
-        """
-        关闭
-        """
-        self.iframe_back()
-        self.click('/html/body/div[5]/span/a[3]')
+        self.close()
 
     def screenshot(self, filename):
         """
@@ -399,16 +407,16 @@ class Exebasepage(object):
         #     })();
         #  """)
 
-    def value(self, selector1, selector2, value):
-        """
-        输入数值
-        :param selector1: 元素1
-        :param selector2: 元素2
-        :param value: 输入的数值
-        :return:
-        """
-        self.sendkeys(selector1, "Keys.CONTROL, 'a'")
-        self.sendkeys(selector2, value)
+    # def value(self, selector1, selector2, value):
+    #     """
+    #     输入数值
+    #     :param selector1: 元素1
+    #     :param selector2: 元素2
+    #     :param value: 输入的数值
+    #     :return:
+    #     """
+    #     self.sendkeys(selector1, "Keys.CONTROL, 'a'")
+    #     self.sendkeys(selector2, value)
 
     def add_photo(self, photo_file):
         """
@@ -502,6 +510,7 @@ class Exebasepage(object):
         selector2 = '//ul[@id="ui_0_target_tags_listbox"]/li'
         self.dropdown(selector1, selector2, value)
 
+    # 要修改
     def user(self, value):
         """
         用户
@@ -520,9 +529,9 @@ class Exebasepage(object):
         self.click_wait('//li[@class="next"]/a')
         self.click('//li[@class="next"]/a')
 
-    def dropdown_green(self, selector, value):
+    def dropdown_blue(self, selector, value):
         """
-        下拉查询框（绿色版）
+        下拉查询框（蓝色版）
         :param selector:框元素值
         :param value:输入值
         :return:
@@ -638,7 +647,7 @@ class Exebasepage(object):
         :return:
         """
         self.sendkeys('//input[@id="ui_0_bonus_point"]/../input[1]', Keys.CONTROL, 'a')
-        self.sendkeys('i,ui_0_bonus_point', value)
+        self.sendkeys   ('i,ui_0_bonus_point', value)
 
     def electives(self):
         """
