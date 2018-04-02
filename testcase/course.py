@@ -22,7 +22,7 @@ class Test_1(unittest.TestCase):
         cls.course.closeBrowser()
 
     def test_login(self):
-        self.course.login('dev', 'admin', '123')
+        self.course.login()
         # 验证登录是否成功
         # self.course.arise_wait('/html/body/div[1]/ul/li[1]/a')
         # self.course.iframe_mainFrame()
@@ -165,6 +165,6 @@ class Test_1(unittest.TestCase):
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
-    a = [Test_1('test_login'), Test_1('test_2')]
+    a = [Test_1('test_login')]
     suite.addTests(a)
     unittest.TextTestRunner().run(suite)

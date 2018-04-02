@@ -9,15 +9,18 @@ import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from parameters.path import path
+from config import config
 
 
 class Exebasepage(object):
-
+    c = config.Config()
+    p = path.Path().get('common')
     # 干掉谷歌浏览器状态栏提示
     option = webdriver.ChromeOptions()
-    option.add_argument("disable-infobars")
-    option.add_argument("headless")
-    option.add_argument("disable-gpu")
+    # option.add_argument("disable-infobars")
+    # option.add_argument("headless")
+    # option.add_argument("disable-gpu")
     # argument = ["disable-infobars", "headless", "disable-gpu"]
     # option.add_argument(argument)
     # 指定下载地址，不弹窗
@@ -32,30 +35,29 @@ class Exebasepage(object):
         """
         获取元素 getElement('i,aa')
         """
-        if ',' not in selector:
+        if selector[1] != ',':
             return self.driver.find_element_by_xpath(selector)
-        selector_by = selector.split(',')[0]
-        selector_value = selector.split(',')[1]
+        selector_by = selector[0]
+        selector_value = selector[2:]
 
-        if selector_by == "i" or selector_by == 'id':
+        if selector_by == "i":
             element = self.driver.find_element_by_id(selector_value)
-        elif selector_by == "n" or selector_by == 'name':
+        elif selector_by == "n":
             element = self.driver.find_element_by_name(selector_value)
-        elif selector_by == "c" or selector_by == 'class_name':
+        elif selector_by == "c":
             element = self.driver.find_element_by_class_name(selector_value)
-        elif selector_by == "l" or selector_by == 'link_text':
+        elif selector_by == "l":
             element = self.driver.find_element_by_link_text(selector_value)
-        elif selector_by == "p" or selector_by == 'partial_link_text':
+        elif selector_by == "p":
             element = self.driver.find_element_by_partial_link_text(selector_value)
-        elif selector_by == "t" or selector_by == 'tag_name':
+        elif selector_by == "t":
             element = self.driver.find_element_by_tag_name(selector_value)
-        elif selector_by == "x" or selector_by == 'xpath':
+        elif selector_by == "x":
             element = self.driver.find_element_by_xpath(selector_value)
-        elif selector_by == "s" or selector_by == 'selector_selector':
+        elif selector_by == "s":
             element = self.driver.find_element_by_css_selector(selector_value)
         else:
             raise NameError("Please enter a valid type of targeting elements.")
-
         return element
 
     def getElements(self, selector):
@@ -67,25 +69,24 @@ class Exebasepage(object):
         selector_by = selector.split(',')[0]
         selector_value = selector.split(',')[1]
 
-        if selector_by == "i" or selector_by == 'id':
+        if selector_by == "i":
             elements = self.driver.find_elements_by_id(selector_value)
-        elif selector_by == "n" or selector_by == 'name':
+        elif selector_by == "n":
             elements = self.driver.find_elements_by_name(selector_value)
-        elif selector_by == "c" or selector_by == 'class_name':
+        elif selector_by == "c":
             elements = self.driver.find_elements_by_class_name(selector_value)
-        elif selector_by == "l" or selector_by == 'link_text':
+        elif selector_by == "l":
             elements = self.driver.find_elements_by_link_text(selector_value)
-        elif selector_by == "p" or selector_by == 'partial_link_text':
+        elif selector_by == "p":
             elements = self.driver.find_elements_by_partial_link_text(selector_value)
-        elif selector_by == "t" or selector_by == 'tag_name':
+        elif selector_by == "t":
             elements = self.driver.find_elements_by_tag_name(selector_value)
-        elif selector_by == "x" or selector_by == 'xpath':
+        elif selector_by == "x":
             elements = self.driver.find_elements_by_xpath(selector_value)
-        elif selector_by == "s" or selector_by == 'selector_selector':
+        elif selector_by == "s":
             elements = self.driver.find_elements_by_css_selector(selector_value)
         else:
             raise NameError("Please enter a valid type of targeting elements.")
-
         return elements
 
     def click(self, selector):
@@ -124,14 +125,13 @@ class Exebasepage(object):
         self.driver.switch_to.default_content()
 
     def iframe_mainFrame(self):
-        self.iframe('i,mainFrame')
+        self.iframe(self.p.get('mainframe'))
 
     def iframe_second(self):
-        self.iframe('/html/body/div[5]/div[2]/iframe')
+        self.iframe(self.p.get('second_frame'))
 
     def iframe_third(self):
-        self.iframe('/html/body/div[7]/div[2]/iframe')
-
+        self.iframe(self.p.get('third_frame'))
 
     def arise_wait(self, selector):
         """
@@ -140,7 +140,8 @@ class Exebasepage(object):
         :return:
         """
         if ',' not in selector:
-            return WebDriverWait(self.driver, 60).until(EC.presence_of_all_elements_located((By.XPATH, selector)), 'error')
+            return WebDriverWait(self.driver, 60).until(EC.presence_of_all_elements_located((By.XPATH, selector)),
+                                                        'error')
         method = selector.split(',')[0]
         selector_value = selector.split(',')[1]
         if method == "i":
@@ -148,17 +149,21 @@ class Exebasepage(object):
         elif method == "n":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.NAME, selector_value)), 'error')
         elif method == "c":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, selector_value)),
+                                                 'error')
         elif method == "l":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.LINK_TEXT, selector_value)),
+                                                 'error')
         elif method == "p":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, selector_value)),
+                                                 'error')
         elif method == "t":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, selector_value)), 'error')
         elif method == "x":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, selector_value)), 'error')
         elif method == "s":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector_value)),
+                                                 'error')
 
     def visibility_wait(self, selector):
         """
@@ -175,17 +180,21 @@ class Exebasepage(object):
         elif method == "n":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.NAME, selector_value)), 'error')
         elif method == "c":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, selector_value)),
+                                                 'error')
         elif method == "l":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.LINK_TEXT, selector_value)),
+                                                 'error')
         elif method == "p":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, selector_value)),
+                                                 'error')
         elif method == "t":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.TAG_NAME, selector_value)), 'error')
         elif method == "x":
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, selector_value)), 'error')
         elif method == "s":
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, selector_value)),
+                                                 'error')
 
     def click_wait(self, selector):
         """
@@ -206,7 +215,8 @@ class Exebasepage(object):
         elif method == "l":
             WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.LINK_TEXT, selector_value)), 'error')
         elif method == "p":
-            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.PARTIAL_LINK_TEXT, selector_value)),
+                                                 'error')
         elif method == "t":
             WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, selector_value)), 'error')
         elif method == "x":
@@ -221,27 +231,36 @@ class Exebasepage(object):
         :return:
         """
         if ',' not in selector:
-            return WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, selector)), 'error')
+            return WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, selector)),
+                                                        'error')
         method = selector.split(',')[0]
         selector_value = selector.split(',')[1]
         if method == "i":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.ID, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.ID, selector_value)),
+                                                 'error')
         elif method == "n":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.NAME, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.NAME, selector_value)),
+                                                 'error')
         elif method == "c":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(
+                EC.frame_to_be_available_and_switch_to_it((By.CLASS_NAME, selector_value)), 'error')
         elif method == "l":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(
+                EC.frame_to_be_available_and_switch_to_it((By.LINK_TEXT, selector_value)), 'error')
         elif method == "p":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.PARTIAL_LINK_TEXT, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(
+                EC.frame_to_be_available_and_switch_to_it((By.PARTIAL_LINK_TEXT, selector_value)), 'error')
         elif method == "t":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.TAG_NAME, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(
+                EC.frame_to_be_available_and_switch_to_it((By.TAG_NAME, selector_value)), 'error')
         elif method == "x":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, selector_value)),
+                                                 'error')
         elif method == "s":
-            WebDriverWait(self.driver, 20).until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, selector_value)), 'error')
+            WebDriverWait(self.driver, 20).until(
+                EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, selector_value)), 'error')
 
-    def login(self, TenantId, username, password):
+    def login(self):
         """
         登录操作
         :param TenantId:企业ID
@@ -250,26 +269,26 @@ class Exebasepage(object):
         """
         # self.driver.set_window_size(1920,1080)
         self.driver.maximize_window()
-        self.driver.get("https://test.exexm.com/SysHome")
+        self.driver.get(self.c.get('url'))
         self.driver.implicitly_wait(5)
         # 企业ID
-        self.sendkeys("i,txtTenantId", TenantId)
+        self.sendkeys(self.p.get('tenantId'), self.c.get('tenantId'))
+        # 确定
+        self.click(self.p.get('confirm'))
         # 账号
-        self.sendkeys("i,txtLoginName", username)
+        self.sendkeys(self.p.get('userId'), self.c.get('userId'))
         # 密码
-        self.sendkeys("i,txtPassword", password)
+        self.sendkeys(self.p.get('password'), self.c.get('password'))
         # 登录
         time.sleep(1)
-        self.click("i,btnLogin")
-        self.iframe_mainFrame()
-        self.arise_wait('/html/body/div[1]/ul/li[1]/a')
+        self.click(self.p.get('login'))
 
     def new_add(self):
         """
         新增按钮
         """
         self.iframe_mainFrame()
-        self.click('i,btnAdd')
+        self.click(self.p.get('btnAdd'))
         self.iframe_back()
 
     def double_demand(self, id, value):
@@ -283,18 +302,18 @@ class Exebasepage(object):
         self.iframe_back()
         self.iframe_third()
         # 名称或编号查询
-        self.sendkeys('i,txtname', value)
-        self.click('i,btnQuery')
+        self.sendkeys(self.p.get('cond_name'), value)
+        self.click(self.p.get('btnQuery'))
         time.sleep(1)
-        texts = self.getElements('t,td')
+        texts = self.getElements(self.p.get('gridResult'))
         for text1 in texts:
             if text1.text == value:
                 text1.click()
+                break
         time.sleep(1)
-        self.click('i,btnSelectorReturn')
+        self.click(self.p.get('btnSelectorReturn'))
         self.iframe_back()
         self.iframe_second()
-
 
     def single_demand(self, id, value):
         """
@@ -308,14 +327,15 @@ class Exebasepage(object):
         self.iframe_back()
         self.iframe_third()
         # 名称或编号查询
-        self.sendkeys('i,txtid', value)
-        self.click('i,btnQuery')
+        self.sendkeys(self.p.get('txtid'), value)
+        self.click(self.p.get('btnQuery'))
         time.sleep(1)
-        texts = self.getElements('t,span')
+        texts = self.getElements(self.p.get('treeview'))
         for text1 in texts:
             if text1.text == value:
                 text1.click()
-        self.click('i,btnSelectorReturn')
+                break
+        self.click(self.p.get('btnSelectorReturn'))
         self.iframe_back()
         self.iframe_second()
 
@@ -351,31 +371,30 @@ class Exebasepage(object):
         :param finish_time: 结束时间 2010-5-10
         :return:
         """
-
-        self.sendkeys('i,ui_0_expire_from', start_time)
-        self.sendkeys('i,ui_0_expire_to', finish_time)
+        self.sendkeys(self.p.get('ui_0_expire_from'), start_time)
+        self.sendkeys(self.p.get('ui_0_expire_to'), finish_time)
 
     def save(self):
         """
         保存按钮
         """
-        self.click('i,btnSave')
+        self.click(self.p.get('btnSave'))
 
     def close(self):
         """
         关闭
         """
         self.iframe_back()
-        self.click('/html/body/div[5]/span/a[3]')
+        self.click(self.p.get('close'))
 
     def publish(self):
         """
         发布和关闭按钮
         """
-        self.click('i,btnLibPublish')
+        self.click(self.p.get('btnLibPublish'))
         # 确定按钮
-        self.click('/html/body/div[17]/div[3]/a[1]')
-        self.click_wait('i,btnAdd')
+        self.click(self.p.get('btnConfirm'))
+        self.click_wait(self.p.get('btnAdd'))
         self.close()
 
     def screenshot(self, filename):
@@ -387,25 +406,6 @@ class Exebasepage(object):
         ja = 'window.scroll(0,0)'
         self.driver.execute_script(ja)
         self.driver.get_screenshot_as_file(filename)
-        # driver.execute_script("arguments[0].scrollIntoView();")
-        # self.driver.execute_script("""
-        #     (function () {
-        #         var y = scrollY;
-        #         var step = 100;
-        #         window.scroll(0, 0);
-        #         function f() {
-        #             if (y < document.body.scrollHeight) {
-        #                 y += step;
-        #                 window.scroll(0, y);
-        #                 setTimeout(f, 100);
-        #             } else {
-        #                 window.scroll(0,0);
-        #                 document.title += "scroll-done";
-        #             }
-        #         }xc
-        #          setTimeout(f, 1000);
-        #     })();
-        #  """)
 
     # def value(self, selector1, selector2, value):
     #     """
@@ -424,15 +424,18 @@ class Exebasepage(object):
         :param photo_file: 图片地址
         :return:
         """
-        self.click('i,btnUploadImage')
+        # 上传课程封面
+        self.click(self.p.get('btnUploadImage'))
         time.sleep(1)
         self.iframe_back()
         self.iframe_third()
-        self.sendkeys('/html/body/div[1]/div[2]/div/div/div[1]/div/div/div[2]/input', photo_file)
-        self.click('/html/body/div[1]/div[2]/div/div/div[2]/div[3]/div[2]')
-        aa = '/html/body/div[6]/div[3]/a'
-        self.visibility_wait(aa)
-        self.click(aa)
+        # 选择图片路径
+        self.sendkeys(self.p.get('filePicker'), photo_file)
+        # 开始上传
+        self.click(self.p.get('upload'))
+        self.visibility_wait(self.p.get('btnConfirm'))
+        # 确定
+        self.click(self.p.get('btnConfirm'))
         self.iframe_back()
         self.iframe_second()
 
@@ -647,7 +650,7 @@ class Exebasepage(object):
         :return:
         """
         self.sendkeys('//input[@id="ui_0_bonus_point"]/../input[1]', Keys.CONTROL, 'a')
-        self.sendkeys   ('i,ui_0_bonus_point', value)
+        self.sendkeys('i,ui_0_bonus_point', value)
 
     def electives(self):
         """
@@ -658,3 +661,6 @@ class Exebasepage(object):
         self.click('//div[@id="target_div"]/span/span/span[2]')
         time.sleep(0.5)
         self.click('//ul[@id="ui_0_target_listbox"]/li[3]')
+
+
+

@@ -1,7 +1,11 @@
-URL:
+url: https://admin.exexm.com/SysHome
+tenantId: pre
+userId: admin
+password: 123
 log:
     file_name: test.log
     backup: 5
     console_level: WARNING
     file_level: DEBUG
     pattern: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+

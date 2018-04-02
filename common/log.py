@@ -4,6 +4,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 from config.config import LOG_PATH
 from config import config
+import os
 
 
 class Logger(object):
@@ -12,6 +13,10 @@ class Logger(object):
         logging.root.setLevel(logging.NOTSET)
         c = config.Config().get('log')
         self.log_file_name = c.get('file_name') if c and c.get('file_name') else 'test.log'
+        # if c and c.get('file_name'):
+        #     self.log_file_name = c.get('file_name')
+        # else:
+        #     self.log_file_name = 'test.log'
         self.backup_count = c.get('backup') if c and c.get('backup') else 5  # 保留的日志数量
         # 日志输出级别
         self.console_output_level = c.get('console_level') if c and c.get('console_level') else 'WARNING'
@@ -28,7 +33,7 @@ class Logger(object):
             console_handler.setLevel(self.console_output_level)
             self.logger.addHandler(console_handler)
             # 每天重新创建一个日志文件，最多保留backup_count
-            file_handler = TimedRotatingFileHandler(filename=LOG_PATH + self.log_file_name,
+            file_handler = TimedRotatingFileHandler(filename=os.path.join(LOG_PATH, self.log_file_name),
                                                     when="D",
                                                     interval=1,
                                                     backupCount=self.backup_count,
@@ -38,5 +43,29 @@ class Logger(object):
             file_handler.setLevel(self.file_output_level)
             self.logger.addHandler(file_handler)
         return self.logger
+
+aa = Logger()
+
+def log(msg):
+    """
+    A decorator that wraps the passed in function and logs
+    exceptions should one occur
+    """
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            logger = Logger().get_logger()
+            try:
+                func(*args, **kwargs)
+                logger.info(msg)
+            except Exception as e:
+                # log the exception
+                # err = "There was an exception in "
+                # err += func.__name__
+                logger.exception(e)
+
+                # re-raise the exception
+                raise
+        return wrapper
+    return decorator
 
 
