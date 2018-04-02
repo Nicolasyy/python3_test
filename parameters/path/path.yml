@@ -1,0 +1,26 @@
+common:
+    tenantId: //div[@class='login_input_content']/input[contains(@id,'txtTenantId')]
+    confirm: i,btnTenant
+    userId: i,txtUserId
+    password: i,txtPwd
+    login: i,btnLogin
+    mainframe: i,mainFrame
+    second_frame: /html/body/div[5]/div[2]/iframe
+    third_frame: /html/body/div[7]/div[2]/iframe
+    btnAdd: i,btnAdd
+    cond_name: i,cond_name
+    btnQuery: i,btnQuery
+    gridResult: //div[@id='gridResult']/div[2]/table/tbody/tr/td[3]
+    btnSelectorReturn: i,btnSelectorReturn
+    txtid: i,txtid
+    treeview: //div[@id='treeview']/ul/li/div/span[2]
+    ui_0_expire_from: i,ui_0_expire_from
+    ui_0_expire_to: i,ui_0_expire_to
+    btnSave: i,btnSave
+    close: /html/body/div[5]/span/a[3]
+    btnLibPublish: i,btnLibPublish
+    btnConfirm: l,确定
+    btnUploadImage: i,btnUploadImage
+    filePicker: //div[@id='filePicker']/div[2]/input
+    upload: //div[text()='开始上传']
+
